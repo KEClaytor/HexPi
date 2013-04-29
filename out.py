@@ -1,4 +1,8 @@
 # Output functions
+
+# Import RPi GPIO 
+import RPi.GPIO as GPIO
+
 # Lights are numbered as follows;
 #         (02)  (04)
 #      (01)  (03)  (05)
@@ -30,3 +34,16 @@ def textout(hc):
 # Actual output on the GPIO of the Pi
 def lightout(hc):
 	pass
+
+# Enable all IO pins on the Pi
+def enable(state):
+    GPIO.setmode(GPIO.BCM)
+    for pin in range(1,21)
+        GPIO.setup(pin, state)
+
+def onoff_led(PINS,state):
+    # In this case PINS will be our state vector
+    # And we really need to get the index of PINS when setting
+    for PIN in PINS:
+        GPIO.output(PIN,state)
+    return 0
