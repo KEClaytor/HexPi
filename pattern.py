@@ -12,6 +12,18 @@ class Pattern:
 
     def __repr__(self):
         textout(bits)
+        return
+
+    def __sub__(self, pin):
+        tmpbits = self.bits
+        tmpbits[pin] = 0
+        return Pattern(tmpbits)
+
+    def __add__(self, pin):
+        tmpbits = self.bits
+        tmpbits[pin] = 1
+        return Pattern(tmpbits)
+
 
 class Animation:
     def __init__(self, patterns, waits):
@@ -34,3 +46,13 @@ class Animation:
     def animate(self):
         while 1:
             self.nextframe()
+
+    def __repr__(self):
+        if self.frame >= self.nframes:
+            self.frame = 0
+
+        print self.patterns[self.frame]
+        sleep(self.wait[self.frame])
+        self.frame += 1
+
+        return
