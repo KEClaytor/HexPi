@@ -12,11 +12,11 @@ import letters
 from time import sleep
 
 # Import modules for twitter commands
-
+import out
 
 # Initalize Pi GPIO
 GPIO.setmode(GPIO.BCM)
-out.enable(1)
+out.enable(GPIO.OUT)
 
 # Begin running the main loop
 
