@@ -32,7 +32,7 @@ def textout(hc):
     print ""+repr(hc[16])+repr(hc[17])+repr(hc[18])+repr(hc[19])+repr(hc[20])+repr(hc[5])+repr(hc[6])
     print ""+repr(hc[15])+repr(hc[14])+repr(hc[23])+repr(hc[22])+repr(hc[21])+repr(hc[8])+repr(hc[7])
     print " "+repr(hc[13])+repr(hc[12])+repr(hc[11])+repr(hc[10])+repr(hc[9])
-    return 0
+    return
 
 # Actual output on the GPIO of the Pi
 def lightout(hc):

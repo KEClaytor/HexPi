@@ -1,6 +1,5 @@
 # Module that contains patters for the HexLight
 from pattern import Pattern, Animation
-from itertools import ifilter
 
 def all_bits(state):
     return Pattern(repeat(state, 24))
@@ -12,22 +11,22 @@ def all_off():
     return all_bits(0)
 
 def inner_circle():
-    return Pattern(ifilter(lambda x: x > 18), range(25))
+    return Pattern(map(lambda x: x > 17, range(25)))
 
 def inner_circle_alt_odd():
-    return Pattern(ifilter(lambda x: x > 18 && x % 2), range(25))
+    return Pattern(map(lambda x: x > 17 and x % 2, range(25)))
 
 def inner_circle_alt_even():
-    return Pattern(ifilter(lambda x: x > 18 && not x % 2), range(25))
+    return Pattern(map(lambda x: x > 17 and not x % 2, range(25)))
 
 def outer_circle():
-    return Pattern(ifilter(lambda x: x < 19), range(25))
+    return Pattern(map(lambda x: x < 18, range(25)))
 
 def outer_circle_alt_odd():
-    return Pattern(ifilter(lambda x: x < 19 && x % 2), range(25))
+    return Pattern(map(lambda x: x < 18 and x % 2, range(25)))
 
 def outer_circle_alt_even():
-    return Pattern(ifilter(lambda x: x < 19 && not x % 2), range(25))
+    return Pattern(map(lambda x: x < 18 and not x % 2, range(25)))
 
 def wedge(wait):
 	pass

@@ -3,15 +3,15 @@ from time import sleep
 
 class Pattern:
     def __init__(self, bits):
-        self.bits = bits
+        self.bits = map(int, bits)
         return
 
     def draw(self):
-        set_states_all(bits)
+        set_states_all(self.bits)
         return
 
-    def __repr__(self):
-        textout(bits)
+    def printscreen(self):
+        textout(self.bits)
         return
 
     def __sub__(self, pin):
@@ -47,12 +47,13 @@ class Animation:
         while 1:
             self.nextframe()
 
-    def __repr__(self):
-        if self.frame >= self.nframes:
-            self.frame = 0
+    def printscreen(self):
+	while 1:
+            if self.frame >= self.nframes:
+                self.frame = 0
 
-        print self.patterns[self.frame]
-        sleep(self.wait[self.frame])
-        self.frame += 1
+            self.patterns[self.frame].printscreen()
+            sleep(self.waits[self.frame])
+            self.frame += 1
 
         return

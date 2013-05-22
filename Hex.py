@@ -20,4 +20,6 @@ out.enable(GPIO.OUT)
 
 # Begin running the main loop
 
-
+# c = patterns.spinning_outer_circle(1)
+c = patterns.spinning_inner_circle(1)
+c.printscreen()
