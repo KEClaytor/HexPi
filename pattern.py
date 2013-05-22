@@ -10,6 +10,9 @@ class Pattern:
         set_states_all(bits)
         return
 
+    def __repr__(self):
+        textout(bits)
+
 class Animation:
     def __init__(self, patterns, waits):
         self.patterns = patterns
