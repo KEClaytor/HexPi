@@ -1,7 +1,10 @@
 # Output functions
+__out_dict = dict(enumerate(range(22)))
 
 # Import RPi GPIO 
 import RPi.GPIO as GPIO
+
+from itertools import repeat
 
 # Lights are numbered as follows;
 #         (02)  (04)
@@ -25,25 +28,36 @@ import RPi.GPIO as GPIO
 # Text out to the screen (useful while we're building)
 # To compressed, lengthen it out a bit
 def textout(hc):
-	print " "+repr(hc[0])+repr(hc[1])+repr(hc[2])+repr(hc[3])+repr(hc[4])
-	print ""+repr(hc[16])+repr(hc[17])+repr(hc[18])+repr(hc[19])+repr(hc[20])+repr(hc[5])+repr(hc[6])
-	print ""+repr(hc[15])+repr(hc[14])+repr(hc[23])+repr(hc[22])+repr(hc[21])+repr(hc[8])+repr(hc[7])
-	print " "+repr(hc[13])+repr(hc[12])+repr(hc[11])+repr(hc[10])+repr(hc[9])
-	return 0
+    print " "+repr(hc[0])+repr(hc[1])+repr(hc[2])+repr(hc[3])+repr(hc[4])
+    print ""+repr(hc[16])+repr(hc[17])+repr(hc[18])+repr(hc[19])+repr(hc[20])+repr(hc[5])+repr(hc[6])
+    print ""+repr(hc[15])+repr(hc[14])+repr(hc[23])+repr(hc[22])+repr(hc[21])+repr(hc[8])+repr(hc[7])
+    print " "+repr(hc[13])+repr(hc[12])+repr(hc[11])+repr(hc[10])+repr(hc[9])
+    return 0
 
 # Actual output on the GPIO of the Pi
 def lightout(hc):
-	pass
+    pass
 
 # Enable all IO pins on the Pi
 def enable(state):
     GPIO.setmode(GPIO.BCM)
-    for pin in range(1,21)
-        GPIO.setup(pin, state)
+    for pin in range(1, 22):
+        GPIO.setup(__out_dict[pin], state)
 
-def onoff_led(PINS,state):
-    # In this case PINS will be our state vector
-    # And we really need to get the index of PINS when setting
-    for PIN in PINS:
-        GPIO.output(PIN,state)
-    return 0
+    return
+
+def set_state(pin, state):
+    GPIO.output(__out_dict[pin], state)
+    return
+
+def set_states_lists(pins, states):
+    map(set_state, pins, states)
+    return
+
+def set_states_pairs(pstates):
+    set_state_lists(zip(*pstates))
+    return
+
+def set_states_all(states):
+    set_states_lists(range(1, 22), states)
+    return
