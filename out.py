@@ -1,5 +1,8 @@
 # Output functions
-__out_dict = dict(enumerate(range(22)))
+#__out_dict = dict(enumerate(range(22)))
+# I'm not sure if this is the right way to do it, but these are the pin numberings
+# They do not correspond to the order in the numberings below
+__out_dict = dict(enumerate([14,15,18,23,24,25,8,7,2,3,4,17,27,22,0,9,11,28,30,29,31]))
 
 # Import RPi GPIO 
 import RPi.GPIO as GPIO
@@ -41,9 +44,8 @@ def lightout(hc):
 # Enable all IO pins on the Pi
 def enable(state):
     GPIO.setmode(GPIO.BCM)
-    for pin in range(1, 22):
+    for pin in range(21):
         GPIO.setup(__out_dict[pin], state)
-
     return
 
 def set_state(pin, state):
@@ -59,5 +61,5 @@ def set_states_pairs(pstates):
     return
 
 def set_states_all(states):
-    set_states_lists(range(1, 22), states)
+    set_states_lists(range(21), states)
     return
