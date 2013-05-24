@@ -19,7 +19,13 @@ GPIO.setmode(GPIO.BCM)
 out.enable(GPIO.OUT)
 
 # Begin running the main loop
+while 1:
+    patterns.all_off().printscreen()
+    sleep(1)
+    patterns.all_on().printscreen()
+    sleep(1)
 
 # c = patterns.spinning_outer_circle(1)
 c = patterns.spinning_inner_circle(1)
 c.printscreen()
+
