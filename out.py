@@ -2,7 +2,11 @@
 #__out_dict = dict(enumerate(range(22)))
 # I'm not sure if this is the right way to do it, but these are the pin numberings
 # They do not correspond to the order in the numberings below
-__out_dict = dict(enumerate([14,15,18,23,24,25,8,7,2,3,4,17,27,22,0,9,11,28,30,29,31]))
+# This is the dictionary for BCM numbering
+__out_dict = dict(enumerate([14,15,18,23,24,25,8,7,2,3,4,17,27,22,10,9,11,28,30,29,31]))
+# And this is the dictionary for BOARD numbering
+# I'm not sure how to address the P5 header, so I'll leave those as 0 for now...?
+# __out_dict = dict(enumerate([3,5,7,8,10,11,12,13,15,16,18,19,21,22,23,24,26,0,0,0,0]))
 
 # Import RPi GPIO 
 import RPi.GPIO as GPIO
@@ -43,12 +47,14 @@ def lightout(hc):
 
 # Enable all IO pins on the Pi
 def enable(state):
-    GPIO.setmode(GPIO.BCM)
+    # setmode should only be called once
+    #GPIO.setmode(GPIO.BCM)
     for pin in range(21):
         GPIO.setup(__out_dict[pin], state)
     return
 
 def set_state(pin, state):
+    print repr(pin) + " --> " + repr(__out_dict[pin]) + " = " + repr(state)
     GPIO.output(__out_dict[pin], state)
     return
 
