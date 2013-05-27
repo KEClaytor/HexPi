@@ -54,8 +54,9 @@ def enable(state):
     return
 
 def set_state(pin, state):
-    print repr(pin) + " --> " + repr(__out_dict[pin]) + " = " + repr(state)
-    GPIO.output(__out_dict[pin], state)
+    # Hax, because I want to see it working...
+    if pin is not None:
+        GPIO.output(__out_dict[pin], state)
     return
 
 def set_states_lists(pins, states):
