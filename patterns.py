@@ -3,7 +3,7 @@ from itertools import repeat
 from pattern import Pattern, Animation
 
 def all_bits(state):
-    return Pattern(repeat(state, 24))
+    return Pattern(repeat(state, 21))
 
 def all_on():
     return all_bits(1)
@@ -12,22 +12,22 @@ def all_off():
     return all_bits(0)
 
 def inner_circle():
-    return Pattern(map(lambda x: x > 17, range(25)))
+    return Pattern(map(lambda x: x > 14, range(21)))
 
 def inner_circle_alt_odd():
-    return Pattern(map(lambda x: x > 17 and x % 2, range(25)))
+    return Pattern(map(lambda x: x > 14 and x % 2, range(21)))
 
 def inner_circle_alt_even():
-    return Pattern(map(lambda x: x > 17 and not x % 2, range(25)))
+    return Pattern(map(lambda x: x > 14 and not x % 2, range(21)))
 
 def outer_circle():
-    return Pattern(map(lambda x: x < 18, range(25)))
+    return Pattern(map(lambda x: x < 15, range(21)))
 
 def outer_circle_alt_odd():
-    return Pattern(map(lambda x: x < 18 and x % 2, range(25)))
+    return Pattern(map(lambda x: x < 15 and x % 2, range(21)))
 
 def outer_circle_alt_even():
-    return Pattern(map(lambda x: x < 18 and not x % 2, range(25)))
+    return Pattern(map(lambda x: x < 15 and not x % 2, range(21)))
 
 def wedge(wait):
 	pass

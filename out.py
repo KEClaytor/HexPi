@@ -3,7 +3,7 @@
 # I'm not sure if this is the right way to do it, but these are the pin numberings
 # They do not correspond to the order in the numberings below
 # This is the dictionary for BCM numbering
-__out_dict = dict(enumerate([14,15,18,23,24,25,8,7,2,3,4,17,27,22,10,9,11,28,30,29,31]))
+__out_dict = dict(enumerate([27,18,29,7,28,8,11,25,9,31,10,24,23,22,30,4,14,15,17,2,3]))
 # And this is the dictionary for BOARD numbering
 # I'm not sure how to address the P5 header, so I'll leave those as 0 for now...?
 # __out_dict = dict(enumerate([3,5,7,8,10,11,12,13,15,16,18,19,21,22,23,24,26,0,0,0,0]))
@@ -56,6 +56,7 @@ def enable(state):
 def set_state(pin, state):
     # Hax, because I want to see it working...
     if pin is not None:
+        print repr(pin) + " = " + repr(__out_dict[pin]) + " -> " + repr(state)
         GPIO.output(__out_dict[pin], state)
     return
 
