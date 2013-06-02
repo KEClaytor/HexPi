@@ -41,10 +41,6 @@ def textout(hc):
     print " "+repr(hc[13])+repr(hc[12])+repr(hc[11])+repr(hc[10])+repr(hc[9])
     return
 
-# Actual output on the GPIO of the Pi
-def lightout(hc):
-    pass
-
 # Enable all IO pins on the Pi
 def enable(state):
     # setmode should only be called once
