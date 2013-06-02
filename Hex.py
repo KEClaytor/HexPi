@@ -24,14 +24,7 @@ out.enable(GPIO.OUT)
 patterns.all_off().draw()
 #sleep(1)
 
-# A little routine for figuring out the mapping of the dictionary
-while 1:
-    for pin in range(21):
-        out.set_state(pin,1)
-        sleep(1)
-        out.set_state(pin,0)
-
-# c = patterns.spinning_outer_circle(1)
 c = patterns.spinning_inner_circle(1)
 c.animate()
+sleep(10)
 

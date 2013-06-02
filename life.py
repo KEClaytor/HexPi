@@ -1,7 +1,11 @@
 # Game of life routine for the HexLight
 import random
 from time import sleep 
+
+# Import RPi stuff
+import RPi.GPIO as GPIO
 import out
+import patterns
 
 def dotprod(vec1,vec2):
     return sum(p*q for p,q in zip(vec1,vec2))
@@ -45,19 +49,24 @@ Adjacent[19][7] = 1
 Adjacent[20][13] = 1
 Adjacent[20][15] = 1
 
-# waiting time in seconds
-waits = 1
+# TODO: Remove after testing
+# Initalize Pi GPIO
+GPIO.setmode(GPIO.BCM)
+out.enable(GPIO.OUT)
+patterns.all_off().draw()
 
+# These should be input values
+waits = 1    # waiting time in seconds
 # Values related to survival of the element
 str_self = 0 # self reinforcement
-str_near = 1 # friendly reinforcement
-str_nega = 1 # opposing color
+str_near = 2 # friendly reinforcement
+str_nega = 0 # opposing color
 thresh = 1   # Survivial threshold
 
 # Initalize a random state vector
 #  with n elements turned on
 vec = [0]*21
-non = 10
+non = 15
 for x in range(non):
     ind = random.randint(0,20)
     # Make sure we have an empty spot
@@ -84,3 +93,6 @@ while 1:
     out.set_states_all(vec)
     print vec
 
+# TODO: remove after testing
+# Housekeeping stuff with the IO ports
+GPIO.cleanup()

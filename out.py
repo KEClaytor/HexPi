@@ -41,6 +41,10 @@ def textout(hc):
     print " "+repr(hc[13])+repr(hc[12])+repr(hc[11])+repr(hc[10])+repr(hc[9])
     return
 
+# Actual output on the GPIO of the Pi
+def lightout(hc):
+    pass
+
 # Enable all IO pins on the Pi
 def enable(state):
     # setmode should only be called once
@@ -50,10 +54,9 @@ def enable(state):
     return
 
 def set_state(pin, state):
-    # Hax, because I want to see it working...
-    if pin is not None:
-        print repr(pin) + " = " + repr(__out_dict[pin]) + " -> " + repr(state)
-        GPIO.output(__out_dict[pin], state)
+    # For debugging:
+    # print repr(pin) + " = " + repr(__out_dict[pin]) + " -> " + repr(state)
+    GPIO.output(__out_dict[pin], state)
     return
 
 def set_states_lists(pins, states):

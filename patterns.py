@@ -29,12 +29,18 @@ def outer_circle_alt_odd():
 def outer_circle_alt_even():
     return Pattern(map(lambda x: x < 15 and not x % 2, range(21)))
 
+def random():
+    return Pattern()
+
 def wedge(wait):
 	pass
 
-# Twinkle n lights using base as the base color
-def twinkle(wait,n,base):
-	pass
+# Twinkle n lights 
+def twinkle(wait,n):
+    return Animation(
+        
+
+	)
 
 # Spin a set of n lights around the outer wheel
 def spinout(wait,n):

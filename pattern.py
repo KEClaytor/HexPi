@@ -28,7 +28,7 @@ class Pattern:
 class Animation:
     def __init__(self, patterns, waits):
         self.patterns = patterns
-        self.wait = 1 #waits
+        self.waits = waits
         self.nframes = len(patterns)
         self.frame = 0
         return
@@ -38,7 +38,7 @@ class Animation:
             self.frame = 0
 
         self.patterns[self.frame].draw()
-        sleep(self.wait)
+        sleep(self.waits[self.frame])
         self.frame += 1
 
         return
