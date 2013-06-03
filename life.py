@@ -59,8 +59,8 @@ patterns.all_off().draw()
 waits = 1    # waiting time in seconds
 # Values related to survival of the element
 str_self = 0 # self reinforcement
-str_near = 2 # friendly reinforcement
-str_nega = 0 # opposing color
+str_near = 2.5 # friendly reinforcement
+str_nega = 1.5 # opposing color
 thresh = 1   # Survivial threshold
 
 # Initalize a random state vector
