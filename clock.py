@@ -5,8 +5,12 @@ from time import sleep
 import out
 
 # resolution based on the number of elements we have
-RESHR = 12/6    # 12 hours, 6 inner elments = 2 hour resolution
-RESMIN = 60/15  # 15 outer elements
+# note: we'll actually get twice this resolution
+#       as we'll link two elements together
+NHR = 6
+RESHR = 12/NHR    # 12 hours, 6 inner elments = 2 hour resolution
+NMN = 15
+RESMIN = 60/NMN
 
 def setface(hour,minute):
     timevec = [0]*21
@@ -19,7 +23,10 @@ def setface(hour,minute):
     else:
         cval = 1
     # set the hour
-    timevec[hour/RESHR+15] = cval
+    timevec[hour/RESHR+NMN] = cval
+    # if we're odd set the next element, so we bridge two
+    if hour%2 != 0:
+        timevec[((hour/RESHR)+NMN+1)%NHR] = cval
     # set the minute
     timevec[minute/RESMIN] = cval
     return timevec
