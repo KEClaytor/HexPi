@@ -26,7 +26,7 @@ def setface(hour,minute):
     timevec[hour/RESHR+NMN] = cval
     # if we're odd set the next element, so we bridge two
     if hour%2 != 0:
-        timevec[((hour/RESHR)+NMN+1)%NHR] = cval
+        timevec[((hour/RESHR)+1)%NHR+NMN] = cval
     # set the minute
     timevec[minute/RESMIN] = cval
     return timevec
