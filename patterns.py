@@ -1,6 +1,7 @@
 # Module that contains patters for the HexLight
 from itertools import repeat
 from pattern import Pattern, Animation
+from letters import all_letters
 
 def all_bits(state):
     return Pattern(repeat(state, 21))
@@ -61,3 +62,7 @@ def spinning_outer_circle(wait):
     return Animation(
             [outer_circle_alt_odd(), outer_circle_alt_even()],
             [wait, wait])
+
+def all_letters_animate(wait):
+    return Animation(map(Pattern, all_letters),
+            [wait]*len(all_letters))

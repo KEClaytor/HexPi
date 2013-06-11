@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from time import sleep
+import out
 
 # resolution based on the number of elements we have
 RESHR = 12/6    # 12 hours, 6 inner elments = 2 hour resolution
@@ -23,15 +24,22 @@ def setface(hour,minute):
     timevec[minute/RESMIN] = cval
     return timevec
 
-while 1:
-    #for minute in range(60):
-    hour = datetime.now().hour
-    minute = datetime.now().minute
-    print setface(hour,minute)
-    # we only have to update once a resolution cycle
-    #print "current minute: " + repr(minute)
-    #print "resolution: " + repr(RESMIN)
-    ut = RESMIN - (minute - (minute/RESMIN)*RESMIN )
-    #print "next update in: " +repr(ut) + " min"
-    # Update on second after when we should to make sure we update propertly
-    sleep(ut*60+1)
+def clockmode():
+    while 1:
+        #for minute in range(60):
+        print datetime.now()
+        hour = datetime.now().hour
+        minute = datetime.now().minute
+        clockstate = setface(hour,minute)
+        out.set_states_all(clockstate)
+        # we only have to update once a resolution cycle
+        ut = RESMIN - (minute - (minute/RESMIN)*RESMIN )
+        # debugging
+        print ""
+        print "current hour: " + repr(hour)
+        print "current minute: " + repr(minute)
+        print "resolution: " + repr(RESMIN)
+        print clockstate
+        print "next update in: " +repr(ut) + " min"
+        # Update on second after when we should to make sure we update propertly
+        sleep(ut*60+1)
