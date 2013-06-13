@@ -51,25 +51,25 @@ def clockmode():
         # Update on second after when we should to make sure we update propertly
         sleep(ut*60+1)
 
-import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BCM)
-out.enable(GPIO.OUT)
-out.set_states_all([0]*21)
-
-# debugging mode
-for hour in range(24):
-    for minute in range(60):
-        clockstate = setface(hour,minute)
-        out.set_states_all(clockstate)
-        # we only have to update once a resolution cycle
-        ut = RESMIN - (minute - (minute/RESMIN)*RESMIN )
-        # debugging
-        print ""
-        print "current hour: " + repr(hour)
-        print "current minute: " + repr(minute)
-        print "resolution: " + repr(RESMIN)
-        print clockstate
-        print "next update in: " +repr(ut) + " min"
-        # Update on second after when we should to make sure we update propertly
-        sleep(.1)
+#import RPi.GPIO as GPIO
+#GPIO.setmode(GPIO.BCM)
+#out.enable(GPIO.OUT)
+#out.set_states_all([0]*21)
+#
+## debugging mode
+#for hour in range(24):
+#    for minute in range(60):
+#        clockstate = setface(hour,minute)
+#        out.set_states_all(clockstate)
+#        # we only have to update once a resolution cycle
+#        ut = RESMIN - (minute - (minute/RESMIN)*RESMIN )
+#        # debugging
+#        print ""
+#        print "current hour: " + repr(hour)
+#        print "current minute: " + repr(minute)
+#        print "resolution: " + repr(RESMIN)
+#        print clockstate
+#        print "next update in: " +repr(ut) + " min"
+#        # Update on second after when we should to make sure we update propertly
+#        sleep(.1)
 
