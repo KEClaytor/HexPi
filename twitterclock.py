@@ -7,14 +7,11 @@ class tclock:
     def __init__(self):
         # We could pass these in as args, but currently
         # this will only be used as the toblerone clock
-        self.consumer_key = \
-            'nnlC6vCYrtNutwPioKdsw'
-        self.consumer_secret = \
-            'pD6xIzkYG2FDiDIWuQAomODpkAlwY6A12BbZnoY'
-        self.access_token = \
-            '1514508019-ltdrcX9lMdMvlhxobpRMNNK1M5OvlBwX3tojpyY'
-        self.access_token_secret = \
-            'ld9ToWtNKRruZkozy8oJGFizwrtQsqOp8aEGncP1w'
+        f = open('twitterkeys','r')
+        self.consumer_key =  f.readline().strip('\n')
+        self.consumer_secret = f.readline().strip('\n')
+        self.access_token = f.readline().strip('\n')
+        self.access_token_secret = f.readline().strip('\n')
         
         self.api = twitter.Api(consumer_key=self.consumer_key, \
             consumer_secret=self.consumer_secret, \
