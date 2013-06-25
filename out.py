@@ -30,15 +30,15 @@ def textout(hc):
 # Enable all IO pins on the Pi
 def enable(state):
     # setmode should only be called once
-    #GPIO.setmode(GPIO.BCM)
-    for pin in range(21):
-        GPIO.setup(__out_dict[pin], state)
-    return
+    pass
 
 # Initalize the IO pins
 def initalize():
     GPIO.setmode(GPIO.BCM)
-    enable(GPIO.OUT)
+    #GPIO.enable(GPIO.OUT)
+    #GPIO.setmode(GPIO.BCM)
+    for pin in range(21):
+        GPIO.setup(__out_dict[pin], GPIO.OUT)
     return
 
 def set_state(pin, state):
