@@ -49,50 +49,43 @@ Adjacent[19][7] = 1
 Adjacent[20][13] = 1
 Adjacent[20][15] = 1
 
-# TODO: Remove after testing
-# Initalize Pi GPIO
-GPIO.setmode(GPIO.BCM)
-out.enable(GPIO.OUT)
-patterns.all_off().draw()
+class gameoflife:
+    def __init__(self, str_self=0, str_near=2.5, str_nega=1.5,
+            thresh=1, numon=15, waits=1):
+        self.str_self = str_self    # self reinforcement
+        self.str_near = str_near    # friendly reinforcement
+        self.str_nega = str_nega    # opposing color
+        self.thresh = thresh        # survival threshold
+        self.waits = waits          # waiting time in s
 
-# These should be input values
-waits = 1    # waiting time in seconds
-# Values related to survival of the element
-str_self = 0 # self reinforcement
-str_near = 2.5 # friendly reinforcement
-str_nega = 1.5 # opposing color
-thresh = 1   # Survivial threshold
+        # Initalize a random state vector
+        #  with n elements turned on
+        vec = [0]*21
+        for x in range(numon):
+            ind = random.randint(0,20)
+            # Make sure we have an empty spot
+            while vec[ind]==1:
+                ind = random.randint(0,20) 
+            vec[ind] = 1
 
-# Initalize a random state vector
-#  with n elements turned on
-vec = [0]*21
-non = 15
-for x in range(non):
-    ind = random.randint(0,20)
-    # Make sure we have an empty spot
-    while vec[ind]==1:
-        ind = random.randint(0,20) 
-    vec[ind] = 1
+        self.state = vec
 
-# Start the main loop though
-out.set_states_all(vec)
-print vec
-while 1:
-    sleep(waits)
-    # See if this element survives
-    newvec = [0]*21
-    for x in range(len(newvec)):
-        strength = str_self*vec[x] + str_near*dotprod(vec,Adjacent[x]) - str_nega*dotprod(invvec(vec),Adjacent[x])
-        if strength > thresh:
-            newvec[x] = 1
-    # Check to see if there is a change
-    if eqvec(vec,newvec):
-        sleep(3)
-        break
-    vec = newvec
-    out.set_states_all(vec)
-    print vec
+        return
 
-# TODO: remove after testing
-# Housekeeping stuff with the IO ports
-GPIO.cleanup()
+    def __call__(self):
+        # See if this element survives
+        vec = [0]*21
+        for x in range(len(vec)):
+            self.strength = self.str_self*self.state[x] + \
+                    self.str_near*dotprod(self.state, Adjacent[x]) - \
+                    self.str_nega*dotprod(invvec(self.state), Adjacent[x])
+
+            if strength > self.thresh:
+                vec[x] = 1
+
+        self.state = vec
+        out.set_states_all(self.state)
+
+        sleep(self.waits)
+
+        return
