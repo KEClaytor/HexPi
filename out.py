@@ -33,7 +33,7 @@ def enable(state):
     pass
 
 # Initalize the IO pins
-def initalize():
+def initialize():
     GPIO.setmode(GPIO.BCM)
     #GPIO.enable(GPIO.OUT)
     #GPIO.setmode(GPIO.BCM)

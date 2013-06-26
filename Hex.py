@@ -23,18 +23,30 @@ def main():
     # Create a new twitter interface
     thandler = twitterclock.tclock()
 
-    lt = thandler.getmentiontext()
+    lt = thandler.getmentiontext().lower()
 
     out.initialize()
 
+    for c in lt:
+        if c in ls.letter_dict:
+            out.set_states_all(ls.letter_dict[c])
+            sleep(1)
+        else:
+            continue
+
     while 1:
-        tw = thandler.getmentiontext()
+        tw = thandler.getmentiontext().lower()
         if (tw != lt):
             for c in tw:
-                out.set_states_all(ls.letter_dict[c])
+                if c in ls.letter_dict:
+                    out.set_states_all(ls.letter_dict[c])
+                    sleep(1)
+                else:
+                    continue
 
         lt = tw
-        sleep(10)
+        # Twitter api rate limit is 100 / hr
+        sleep(40)
 
     return
 
