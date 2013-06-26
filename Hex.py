@@ -14,11 +14,29 @@ from time import sleep
 
 # Import twitter methods
 import twitterclock
+import letters as ls
+import out
 
-# Initalize Pi GPIO
-#out.initalize()
-# Create a new twitter interface
-thandler = twitterclock.tclock()
+def main():
+    # Initalize Pi GPIO
+    #out.initalize()
+    # Create a new twitter interface
+    thandler = twitterclock.tclock()
 
-latesttweet = thandler.getmentiontext()
-print latesttweet
+    lt = thandler.getmentiontext()
+
+    out.initialize()
+
+    while 1:
+        tw = thandler.getmentiontext()
+        if (tw != lt):
+            for c in tw:
+                out.set_states_all(ls.letter_dict[c])
+
+        lt = tw
+        sleep(10)
+
+    return
+
+if __name__=="__main__":
+    main()

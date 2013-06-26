@@ -50,4 +50,3 @@ def clockmode():
         print "next update in: " +repr(ut) + " min"
         # Update on second after when we should to make sure we update propertly
         sleep(ut*60+1)
-
