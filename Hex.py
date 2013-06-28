@@ -15,36 +15,72 @@ from time import sleep
 # Import twitter methods
 import twitterclock
 import letters as ls
+import clock
 import out
+import re
+
+def parse_command(mon,thandle):
+    text = thandle.get_mentions_text()
+    command = re.match('.*:').group().strip(':')
+    options = re.match(':.*').group().strip(': ')
+    print command
+    print options
+    if command == 'clock':
+        cm = clock.clockmode()
+        clock = stoppable(mon.tweet_changed,target=cm)
+    if command = 'say':
+        say(options)
+    else:
+        tweethelp(thandle, command, options)
+    return 
+    
+# Tweet help statements back to the user
+def tweethelp(thandle, command, options)
+    user = thandle.get_mentions_user()
+    if command == 'help':
+        text = "tweet 'help: subject' where subject = {say,clock,life}"
+    elif command == 'say':
+        text = "say: string || prints out 'string' to the display"
+    elif command == 'clock':
+        text = "clock: options || enables clock-mode where options = {analog,digital}"
+    elif command == 'life':
+        text = "life: selfstr goodstr negastr threshold numberon waittime || all optional"
+    else:
+        text = "I don't understand you. Tweet 'help: help' for a list of commands."
+    tweet = '@%s %s' % (user,text)
+    thandle.post_text(tweet)
+    return
+
+def say(tw):
+    for c in tw:
+        if c not in ls.letter_dict:
+            continue
+        out.set_states_all(ls.letter_dict[c])
+        sleep(1)
+    return
+
+class monitor_tweet:
+    def __init__(self, thandle):
+        self.handle = thandle
+        self.lasttweet = thandle.get_mentions_text()
+    
+    def tweet_changed(thandle):
+        changed = 0
+        if self.lasttweet != thandle.get_mentions_text():
+            changed = 1
+        return changed
 
 def main():
     # Initalize Pi GPIO
-    #out.initalize()
+    out.initialize()
     # Create a new twitter interface
     thandler = twitterclock.tclock()
-
-    lt = thandler.getmentiontext().lower()
-
-    out.initialize()
-
-    for c in lt:
-        if c in ls.letter_dict:
-            out.set_states_all(ls.letter_dict[c])
-            sleep(1)
-        else:
-            continue
+    monitor = monitor_tweet(thandler)
 
     while 1:
-        tw = thandler.getmentiontext().lower()
-        if (tw != lt):
-            for c in tw:
-                if c in ls.letter_dict:
-                    out.set_states_all(ls.letter_dict[c])
-                    sleep(1)
-                else:
-                    continue
+        if monitor.tweet_changed():
+            parse_command(monitor,thandler)
 
-        lt = tw
         # Twitter api rate limit is 100 / hr
         sleep(40)
 

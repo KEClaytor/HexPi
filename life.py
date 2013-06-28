@@ -74,7 +74,7 @@ class gameoflife:
 
     def __call__(self):
         # See if this element survives
-        vec = [0]*21
+        vec = [0]*2n
         for x in range(len(vec)):
             self.strength = self.str_self*self.state[x] + \
                     self.str_near*dotprod(self.state, Adjacent[x]) - \

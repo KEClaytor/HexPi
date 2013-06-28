@@ -31,22 +31,18 @@ def setface(hour,minute):
     timevec[minute/RESMIN] = cval
     return timevec
 
-def clockmode():
-    while 1:
-        #for minute in range(60):
-        print datetime.now()
+class clockmode:
+    def __init__(self):
+        pass
+
+    def __call__(self):
+        #print datetime.now()
         hour = datetime.now().hour
         minute = datetime.now().minute
         clockstate = setface(hour,minute)
         out.set_states_all(clockstate)
         # we only have to update once a resolution cycle
-        ut = RESMIN - (minute - (minute/RESMIN)*RESMIN )
-        # debugging
-        print ""
-        print "current hour: " + repr(hour)
-        print "current minute: " + repr(minute)
-        print "resolution: " + repr(RESMIN)
-        print clockstate
-        print "next update in: " +repr(ut) + " min"
-        # Update on second after when we should to make sure we update propertly
-        sleep(ut*60+1)
+        #ut = RESMIN - (minute - (minute/RESMIN)*RESMIN )
+        #sleep(ut*60+1)
+        return
+

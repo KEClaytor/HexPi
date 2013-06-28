@@ -22,8 +22,3 @@ class stoppable (Thread):
 
         return
 
-def f():
-    if thandler.gettweet() == "stop":
-        return 1
-    else:
-        return 0
