@@ -21,21 +21,27 @@ import re
 
 def parse_command(mon,thandle):
     text = thandle.get_mentions_text()
-    command = re.match('.*:').group().strip(':')
-    options = re.match(':.*').group().strip(': ')
+    try:
+        command = re.match('.*:',text).group().strip(':')
+    except:
+        command = ''
+    try:
+        options = re.match(':.*',text).group().strip(':')
+    except:
+        options = ''
     print command
     print options
     if command == 'clock':
         cm = clock.clockmode()
         clock = stoppable(mon.tweet_changed,target=cm)
-    if command = 'say':
+    if command == 'say':
         say(options)
     else:
         tweethelp(thandle, command, options)
     return 
     
 # Tweet help statements back to the user
-def tweethelp(thandle, command, options)
+def tweethelp(thandle, command, options):
     user = thandle.get_mentions_user()
     if command == 'help':
         text = "tweet 'help: subject' where subject = {say,clock,life}"
@@ -61,12 +67,12 @@ def say(tw):
 
 class monitor_tweet:
     def __init__(self, thandle):
-        self.handle = thandle
+        self.thandle = thandle
         self.lasttweet = thandle.get_mentions_text()
     
-    def tweet_changed(thandle):
+    def tweet_changed(self):
         changed = 0
-        if self.lasttweet != thandle.get_mentions_text():
+        if self.lasttweet != self.thandle.get_mentions_text():
             changed = 1
         return changed
 
@@ -78,8 +84,8 @@ def main():
     monitor = monitor_tweet(thandler)
 
     while 1:
-        if monitor.tweet_changed():
-            parse_command(monitor,thandler)
+        #if monitor.tweet_changed():
+        parse_command(monitor,thandler)
 
         # Twitter api rate limit is 100 / hr
         sleep(40)

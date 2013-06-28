@@ -15,7 +15,7 @@ class tclock:
         
         self.api = twitter.Api(consumer_key=self.consumer_key, \
             consumer_secret=self.consumer_secret, \
-            access_token_key=self.accesss_token, \
+            access_token_key=self.access_token, \
             access_token_secret=self.access_token_secret)
 
     # Returns unicode string of the last tweet to us
@@ -37,7 +37,7 @@ class tclock:
         return user
 
     # Posts to twitter needs write-enabled
-    def posttext(self,text):
+    def post_text(self,text):
         rs = 0
         try:
             self.api.PostUpdate(text)
