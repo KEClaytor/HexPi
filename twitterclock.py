@@ -2,6 +2,7 @@
 # KEC 2013-06-24
 
 import twitter
+import random
 
 class tclock:
     def __init__(self):
@@ -44,4 +45,26 @@ class tclock:
         except:
             rs = 1
             print "Unable to post update."
+        return rs
+
+class fakeclock:
+    def __init__(self):
+        # We could pass these in as args, but currently
+        # this will only be used as the toblerone clock
+        self.messages = ['help: help','clock:','help: clock','say: I love gleb']
+        self.users = ['keclaytor','cspollard']
+
+    # Returns unicode string of the last tweet to us
+    def get_mentions_text(self):
+        message = self.messages[random.randint(0,len(self.messages)-1)]
+        return message
+        
+    def get_mentions_user(self):
+        user = self.users[random.randint(0,len(self.users)-1)]
+        return user
+
+    # Posts to twitter needs write-enabled
+    def post_text(self,text):
+        print text
+        rs = 0
         return rs

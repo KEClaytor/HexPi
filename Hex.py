@@ -18,23 +18,25 @@ import letters as ls
 import clock
 import out
 import re
+import stoppable
 
 def parse_command(mon,thandle):
     text = thandle.get_mentions_text()
+    print "Someone tweeted:  " + text
     try:
         command = re.match('.*:',text).group().strip(':')
     except:
         command = ''
     try:
-        options = re.match(':.*',text).group().strip(':')
+        options = re.search(':.*',text).group().strip(':').lstrip()
     except:
         options = ''
     print command
     print options
     if command == 'clock':
-        cm = clock.clockmode()
-        clock = stoppable(mon.tweet_changed,target=cm)
-    if command == 'say':
+        clockthread = stoppable.stoppable(mon.tweet_changed,\
+            target=clock.clockmode)
+    elif command == 'say':
         say(options)
     else:
         tweethelp(thandle, command, options)
@@ -43,13 +45,13 @@ def parse_command(mon,thandle):
 # Tweet help statements back to the user
 def tweethelp(thandle, command, options):
     user = thandle.get_mentions_user()
-    if command == 'help':
+    if options == 'help':
         text = "tweet 'help: subject' where subject = {say,clock,life}"
-    elif command == 'say':
+    elif options == 'say':
         text = "say: string || prints out 'string' to the display"
-    elif command == 'clock':
+    elif options == 'clock':
         text = "clock: options || enables clock-mode where options = {analog,digital}"
-    elif command == 'life':
+    elif options == 'life':
         text = "life: selfstr goodstr negastr threshold numberon waittime || all optional"
     else:
         text = "I don't understand you. Tweet 'help: help' for a list of commands."
@@ -79,8 +81,11 @@ class monitor_tweet:
 def main():
     # Initalize Pi GPIO
     out.initialize()
+
     # Create a new twitter interface
-    thandler = twitterclock.tclock()
+    #thandler = twitterclock.tclock()
+    # Fake twitter for testing
+    thandler = twitterclock.fakeclock()
     monitor = monitor_tweet(thandler)
 
     while 1:
