@@ -56,7 +56,10 @@ def tweethelp(thandle, command, options):
     else:
         text = "I don't understand you. Tweet 'help: help' for a list of commands."
     tweet = '@%s %s' % (user,text)
-    thandle.post_text(tweet)
+    # Check that we didn't just post this message - we don't want to spam
+    lastpost = thandle.get_last_post()
+    if not tweet == lastpost:
+        thandle.post_text(tweet)
     return
 
 def say(tw):
@@ -83,9 +86,9 @@ def main():
     out.initialize()
 
     # Create a new twitter interface
-    #thandler = twitterclock.tclock()
+    thandler = twitterclock.tclock()
     # Fake twitter for testing
-    thandler = twitterclock.fakeclock()
+    #thandler = twitterclock.fakeclock()
     monitor = monitor_tweet(thandler)
 
     while 1:

@@ -19,6 +19,8 @@ class tclock:
             access_token_key=self.access_token, \
             access_token_secret=self.access_token_secret)
 
+    def get_api(self):
+        return self.api
     # Returns unicode string of the last tweet to us
     def get_mentions_text(self):
         mentions = self.api.GetMentions()
@@ -34,8 +36,13 @@ class tclock:
         user = ''
         if len(mentions) > 0:
             men = mentions[0]
-            user = men.user.name
+            user = men.user.screen_name
         return user
+
+    def get_last_post(self):
+        mytweets = self.api.GetHomeTimeline()
+        lastpost = mytweets[0].text
+        return lastpost
 
     # Posts to twitter needs write-enabled
     def post_text(self,text):
