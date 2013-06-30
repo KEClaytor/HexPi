@@ -28,7 +28,7 @@ class tclock:
         if len(mentions) > 0:
             men = mentions[0]
             rawtext = men.text
-            message = rawtext.strip('@tobleroneclock ').lower()
+            message = rawtext.lower()
         return message
         
     def get_mentions_user(self):

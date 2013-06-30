@@ -24,7 +24,7 @@ def parse_command(mon,thandle):
     text = thandle.get_mentions_text()
     print "Someone tweeted:  " + text
     try:
-        command = re.match('.*:',text).group().strip(':')
+        command = re.match('.*:',text).group().strip(':').strip('@tobleroneclock ')
     except:
         command = ''
     try:
@@ -86,9 +86,9 @@ def main():
     out.initialize()
 
     # Create a new twitter interface
-    thandler = twitterclock.tclock()
+    #thandler = twitterclock.tclock()
     # Fake twitter for testing
-    #thandler = twitterclock.fakeclock()
+    thandler = twitterclock.fakeclock()
     monitor = monitor_tweet(thandler)
 
     while 1:
