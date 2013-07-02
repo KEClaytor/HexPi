@@ -24,7 +24,7 @@ def parse_command(mon,thandle):
     text = thandle.get_mentions_text()
     print "Someone tweeted:  " + text
     try:
-        command = re.match('.*:',text).group().strip(':').strip('@tobleroneclock ')
+        command = re.search('.*:',text).group().rstrip(':').lstrip('@tobleroneclock').lstrip()
     except:
         command = ''
     try:
@@ -79,6 +79,7 @@ class monitor_tweet:
         changed = 0
         if self.lasttweet != self.thandle.get_mentions_text():
             changed = 1
+            self.lasttweet = self.thandle.get_mentions_text()
         return changed
 
 def main():
@@ -86,9 +87,9 @@ def main():
     out.initialize()
 
     # Create a new twitter interface
-    #thandler = twitterclock.tclock()
+    thandler = twitterclock.tclock()
     # Fake twitter for testing
-    thandler = twitterclock.fakeclock()
+    #thandler = twitterclock.fakeclock()
     monitor = monitor_tweet(thandler)
 
     while 1:
@@ -96,7 +97,7 @@ def main():
         parse_command(monitor,thandler)
 
         # Twitter api rate limit is 100 / hr
-        sleep(40)
+        sleep(300)
 
     return
 
