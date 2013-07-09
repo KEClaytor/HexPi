@@ -3,6 +3,7 @@
 
 import twitter
 import random
+from datetime import datetime
 
 class tclock:
     def __init__(self):
@@ -18,24 +19,37 @@ class tclock:
             consumer_secret=self.consumer_secret, \
             access_token_key=self.access_token, \
             access_token_secret=self.access_token_secret)
+        # Store the last few mentions and only update them
+        # infrequently
+        self.last_access_time = datetime.now()
+        self.mentions = self.api.GetMentions()
+        self.update_time = 120
 
     def get_api(self):
         return self.api
+
+    # Updates the mentions
+    def update(self):
+        elapsed = datetime.now() - self.last_access_time
+        if elapsed.seconds > self.update_time:
+            self.mentions = self.api.GetMentions()
+        return
+
     # Returns unicode string of the last tweet to us
     def get_mentions_text(self):
-        mentions = self.api.GetMentions()
+        self.update()
         message = ''
         if len(mentions) > 0:
-            men = mentions[0]
+            men = self.mentions[0]
             rawtext = men.text
             message = rawtext.lower()
         return message
         
     def get_mentions_user(self):
-        mentions = self.api.GetMentions()
+        self.update()
         user = ''
         if len(mentions) > 0:
-            men = mentions[0]
+            men = self.mentions[0]
             user = men.user.screen_name
         return user
 

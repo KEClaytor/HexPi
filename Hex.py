@@ -113,7 +113,7 @@ def main():
         parse_command(thandler)
 
         # Twitter api rate limit is 100 / hr
-        sleep(3)
+        sleep(30)
 
     return
 
