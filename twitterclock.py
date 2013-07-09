@@ -39,7 +39,7 @@ class tclock:
     def get_mentions_text(self):
         self.update()
         message = ''
-        if len(mentions) > 0:
+        if len(self.mentions) > 0:
             men = self.mentions[0]
             rawtext = men.text
             message = rawtext.lower()

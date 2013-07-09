@@ -41,7 +41,8 @@ def parse_command(thandle):
     print options
     tm = tweet_monitor(thandle)
     if command == 'clock':
-        clockthread = stoppable(tm, target=clock.clockmode)
+        newclock = clock.clockmode()
+        clockthread = stoppable(tm, target=newclock)
         clockthread.run()
     elif command == 'say':
         saymessage = clock_say(options)
