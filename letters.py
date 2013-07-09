@@ -65,6 +65,7 @@ _carrot = [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1]
 _lparen = [1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0]
 _rparen = [1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0]
 _star = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0] 
+_space = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 
 
@@ -73,7 +74,7 @@ all_letters = [_a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n,
         _3, _4, _5, _6, _7, _8, _9,\
         _dash, _equals, _colon, _scolon, _comma, _period, \
         _qmark, _exclm, _lt, _gt, _qt, _dqt, _bslash, _slash, \
-        _tilde, _carrot, _lparen, _rparen, _star]
+        _tilde, _carrot, _lparen, _rparen, _star, _space]
 
 
-letter_dict = dict(zip(lowercase+digits+"-=:;,.?!<>'""\/~^()*", all_letters))
+letter_dict = dict(zip(lowercase+digits+"-=:;,.?!<>'""\/~^()* ", all_letters))

@@ -15,12 +15,13 @@ from time import sleep
 # Import twitter methods
 import twitterclock
 import letters as ls
+import patterns
 import clock
 import out
 import re
-import stoppable
+from stoppable import stoppable
 
-def parse_command(mon,thandle):
+def parse_command(thandle):
     text = thandle.get_mentions_text()
     print "Someone tweeted:  " + text
     try:
@@ -28,16 +29,24 @@ def parse_command(mon,thandle):
     except:
         command = ''
     try:
-        options = re.search(':.*',text).group().strip(':').lstrip()
+        options = re.search(':.*',text).group().lstrip(':').lstrip()
     except:
         options = ''
+    # in the case that the user didn't specify a command, assume the
+    # command was 'say'.
+    if command == '' and options == '':
+        command = 'say'
+        options = text.lstrip('@tobleroneclock').lstrip()
     print command
     print options
+    tm = tweet_monitor(thandle)
     if command == 'clock':
-        clockthread = stoppable.stoppable(mon.tweet_changed,\
-            target=clock.clockmode)
+        clockthread = stoppable(tm, target=clock.clockmode)
+        clockthread.run()
     elif command == 'say':
-        say(options)
+        saymessage = clock_say(options)
+        saythread = stoppable(tm, target=saymessage)
+        saythread.run()
     else:
         tweethelp(thandle, command, options)
     return 
@@ -62,20 +71,28 @@ def tweethelp(thandle, command, options):
         thandle.post_text(tweet)
     return
 
-def say(tw):
-    for c in tw:
-        if c not in ls.letter_dict:
-            continue
-        out.set_states_all(ls.letter_dict[c])
-        sleep(1)
-    return
+class clock_say:
+    def __init__(self, message):
+        self.message = message
 
-class monitor_tweet:
+    def __call__(self):
+        print self.message
+        for char in self.message:
+            if char not in ls.letter_dict:
+                continue
+            out.set_states_all(ls.letter_dict[char])
+            sleep(1)
+            patterns.all_off().draw()
+            sleep(0.05)
+        sleep(5)
+        return
+
+class tweet_monitor:
     def __init__(self, thandle):
         self.thandle = thandle
         self.lasttweet = thandle.get_mentions_text()
     
-    def tweet_changed(self):
+    def __call__(self):
         changed = 0
         if self.lasttweet != self.thandle.get_mentions_text():
             changed = 1
@@ -90,14 +107,13 @@ def main():
     thandler = twitterclock.tclock()
     # Fake twitter for testing
     #thandler = twitterclock.fakeclock()
-    monitor = monitor_tweet(thandler)
 
     while 1:
         #if monitor.tweet_changed():
-        parse_command(monitor,thandler)
+        parse_command(thandler)
 
         # Twitter api rate limit is 100 / hr
-        sleep(300)
+        sleep(3)
 
     return
 

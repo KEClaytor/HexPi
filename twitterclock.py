@@ -58,14 +58,28 @@ class fakeclock:
     def __init__(self):
         # We could pass these in as args, but currently
         # this will only be used as the toblerone clock
-        self.messages = ['help: help','clock:','help: clock','say: I love gleb']
-        self.users = ['keclaytor','cspollard']
+        self.messages = ['help: help',\
+                'clock:','help: clock',\
+                'say: love gleb',\
+                'watching star wars',\
+                'say: clockmode (Oh, I''m evil)']
+        self.users = ['test_keclaytor','test_cspollard']
+        self.lastmessage = \
+            self.messages[random.randint(0,len(self.messages)-1)]
 
     # Returns unicode string of the last tweet to us
     def get_mentions_text(self):
-        message = self.messages[random.randint(0,len(self.messages)-1)]
-        return message
+        if random.random() > .9:
+            message = \
+                self.messages[random.randint(0,len(self.messages)-1)]
+            self.lastmessage = message
+        else:
+            message = self.lastmessage
+        return '@tobleroneclock ' + message
         
+    def get_last_post(self):
+        return '@tobleroneclock ' + self.lastmessage
+
     def get_mentions_user(self):
         user = self.users[random.randint(0,len(self.users)-1)]
         return user
