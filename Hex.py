@@ -21,36 +21,25 @@ import out
 import re
 from stoppable import stoppable
 
-def parse_command(thandle):
-    text = thandle.get_mentions_text()
-    print "Someone tweeted:  " + text
+def parse_command(text):
     try:
-        command = re.search('.*:',text).group().rstrip(':').lstrip('@tobleroneclock').lstrip()
+        command = re.search('.*:',text).group().rstrip(':').replace('@tobleroneclock',
+                '').lstrip()
     except:
         command = ''
+
     try:
         options = re.search(':.*',text).group().lstrip(':').lstrip()
     except:
         options = ''
+
     # in the case that the user didn't specify a command, assume the
     # command was 'say'.
     if command == '' and options == '':
         command = 'say'
-        options = text.lstrip('@tobleroneclock').lstrip()
-    print command
-    print options
-    tm = tweet_monitor(thandle)
-    if command == 'clock':
-        newclock = clock.clockmode()
-        clockthread = stoppable(tm, target=newclock)
-        clockthread.run()
-    elif command == 'say':
-        saymessage = clock_say(options)
-        saythread = stoppable(tm, target=saymessage)
-        saythread.run()
-    else:
-        tweethelp(thandle, command, options)
-    return 
+        options = text.replace('@tobleroneclock', '').lstrip()
+
+    return command, options
     
 # Tweet help statements back to the user
 def tweethelp(thandle, command, options):
