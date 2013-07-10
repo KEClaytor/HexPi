@@ -1,6 +1,7 @@
 # Some useful debugging methods
 import out
 import patterns
+import letters as ls
 import clock
 import datetime
 from time import sleep
@@ -22,8 +23,8 @@ def debug_loopall():
 def debug_echo():
     while True:
         char = raw_input()
-        if char in letter_dict:
-            out.set_states_all(letter_dict[char])
+        if char in ls.letter_dict:
+            out.set_states_all(ls.letter_dict[char])
     return
 
 # Run clock mode in fast-forward
