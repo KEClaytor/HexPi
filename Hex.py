@@ -5,29 +5,22 @@
 # Generic imports
 from time import sleep
 
-# Raw output method to the pins
-#import out
-# Import patters, letters, and the clock
-#import patterns
-#import letters
-#import clock
-
 # Import twitter methods
-import twitterclock
-import letters as ls
 import patterns
 import clock
+import life
+import misc
 import out
 import re
 from stoppable import stoppable
 
 def parse_command(text):
+    # Try parsing the command
     try:
-        command = re.search('.*:',text).group().rstrip(':').replace('@tobleroneclock',
-                '').lstrip()
+        command = re.search('.*:',text).group().rstrip(':').replace('@tobleroneclock','').lstrip()
     except:
         command = ''
-
+    # and the options
     try:
         options = re.search(':.*',text).group().lstrip(':').lstrip()
     except:
@@ -41,71 +34,38 @@ def parse_command(text):
 
     return command, options
     
-# Tweet help statements back to the user
-def tweethelp(thandle, command, options):
-    user = thandle.get_mentions_user()
-    if options == 'help':
-        text = "tweet 'help: subject' where subject = {say,clock,life}"
-    elif options == 'say':
-        text = "say: string || prints out 'string' to the display"
-    elif options == 'clock':
-        text = "clock: options || enables clock-mode where options = {analog,digital}"
-    elif options == 'life':
-        text = "life: selfstr goodstr negastr threshold numberon waittime || all optional"
+def run_command(sm,command,options):
+    if command == 'clock':
+        targetcmd = clock.clockmode()
+    elif command == 'say':
+        targetcmd = misc.clock_say(options)
+    elif command == 'life':
+        targetcmd = life.gameoflife()
     else:
-        text = "I don't understand you. Tweet 'help: help' for a list of commands."
-    tweet = '@%s %s' % (user,text)
-    # Check that we didn't just post this message - we don't want to spam
-    lastpost = thandle.get_last_post()
-    if not tweet == lastpost:
-        thandle.post_text(tweet)
-    return
+        misc.tweethelp(command, options)
 
-class clock_say:
-    def __init__(self, message):
-        self.message = message
-
-    def __call__(self):
-        print self.message
-        for char in self.message:
-            if char not in ls.letter_dict:
-                continue
-            out.set_states_all(ls.letter_dict[char])
-            sleep(1)
-            patterns.all_off().draw()
-            sleep(0.05)
-        sleep(5)
-        return
-
-class tweet_monitor:
-    def __init__(self, thandle):
-        self.thandle = thandle
-        self.lasttweet = thandle.get_mentions_text()
-    
-    def __call__(self):
-        changed = 0
-        if self.lasttweet != self.thandle.get_mentions_text():
-            changed = 1
-            self.lasttweet = self.thandle.get_mentions_text()
-        return changed
+    run_thread = stoppable(sm, target=targetcmd)
+    return run_thread
 
 def main():
-    # Initalize Pi GPIO
-    out.initialize()
+    pass
+    ## Initalize Pi GPIO
+    #out.initialize()
 
-    # Create a new twitter interface
-    thandler = twitterclock.tclock()
-    # Fake twitter for testing
-    #thandler = twitterclock.fakeclock()
+    ## Create a new twitter interface
+    #thandler = twitterclock.tclock()
+    ## Fake twitter for testing
+    ##thandler = twitterclock.fakeclock()
 
-    while 1:
-        #if monitor.tweet_changed():
-        parse_command(thandler)
+    #while 1:
+    #    #if monitor.tweet_changed():
+    #    parse_command(thandler)
 
-        # Twitter api rate limit is 100 / hr
-        sleep(30)
+    #    # Twitter api rate limit is 100 / hr
+    #    sleep(30)
 
-    return
+    #return
 
 if __name__=="__main__":
+    # update: run twitterstream.py as the main class
     main()
