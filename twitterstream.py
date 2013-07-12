@@ -17,9 +17,11 @@ class StdOutListener(StreamListener):
 
     """
     def on_data(self, data):
-        dict_data = json.loads(data)
-        print type(dict_data)
-        print dict_data["text"]
+        if 'text' in data:
+            print 
+        #dict_data = json.loads(data)
+        #print type(dict_data)
+        #print dict_data["text"]
         return True
 
     def on_error(self, status):
@@ -31,4 +33,5 @@ if __name__ == '__main__':
     auth.set_access_token(access_token, access_token_secret)
 
     stream = Stream(auth, l)
-    stream.filter(track=['basketball'])
+    #stream.filter(track=['basketball'])
+    stream.userstream()
