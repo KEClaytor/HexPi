@@ -2,8 +2,6 @@
 import random
 from time import sleep 
 
-# Import RPi stuff
-import RPi.GPIO as GPIO
 import out
 import patterns
 
@@ -74,7 +72,7 @@ class gameoflife:
 
     def __call__(self):
         # See if this element survives
-        vec = [0]*2n
+        vec = [0]*2*n
         for x in range(len(vec)):
             self.strength = self.str_self*self.state[x] + \
                     self.str_near*dotprod(self.state, Adjacent[x]) - \
