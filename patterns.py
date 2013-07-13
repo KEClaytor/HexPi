@@ -1,7 +1,6 @@
 # Module that contains patters for the HexLight
 from itertools import repeat
 from pattern import Pattern, Animation
-from letters import all_letters
 
 def all_bits(state):
     return Pattern(repeat(state, 21))

@@ -34,7 +34,7 @@ def parse_command(text):
 
     return command, options
     
-def run_command(sm,command,options):
+def run_command(stop_mon,command,options):
     if command == 'clock':
         targetcmd = clock.clockmode()
     elif command == 'say':
@@ -44,7 +44,9 @@ def run_command(sm,command,options):
     else:
         misc.tweethelp(command, options)
 
-    run_thread = stoppable(sm, target=targetcmd)
+    print "Creating thread with command: " + command
+
+    run_thread = stoppable(stop_mon, target=targetcmd)
     return run_thread
 
 def main():

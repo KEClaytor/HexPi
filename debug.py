@@ -23,8 +23,9 @@ def debug_loopall():
 def debug_echo():
     while True:
         char = raw_input()
-        if char in ls.letter_dict:
-            out.set_states_all(ls.letter_dict[char])
+        for c in char:
+            if c in ls.letter_dict:
+                out.set_states_all(ls.letter_dict[char])
     return
 
 # Run clock mode in fast-forward

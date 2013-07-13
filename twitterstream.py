@@ -47,6 +47,7 @@ class stop_monitor():
         self.status = False
 
     def set_stop(self):
+        print "stop command received"
         self.status = True
 
     def __call__(self):
@@ -63,24 +64,26 @@ if __name__ == '__main__':
     stream.userstream(async=True)
     cmd, opt = "",""
 
+    sm = stop_monitor()
     while 1:
+        print "updating command"
         print l.cmd, l.opt
 
+        sleep(10)
 	    # Make sure both command and options changed
         if (l.cmd == cmd) and (l.opt == opt):
             continue
-        
+
+        print "updating command and options"
         cmd = l.cmd
         opt = l.opt
-        
-        # Create a stop monitor and send it to the
-        # class that creats the command and thread
-        sm = stop_monitor()
-        # stop previous stoppable.
+
+        ## Create a stop monitor and send it to the
+        ## class that creats the command and thread
+        ## stop previous stoppable.
         sm.set_stop()
-        # start next stoppable.
+        ## start next stoppable.
         sm.set_continue()
         rt = Hex.run_command(sm,cmd,opt)
         rt.run()
-        
-        sleep(10)
+ 
