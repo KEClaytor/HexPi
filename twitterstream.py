@@ -42,13 +42,16 @@ class TobleroneListener (StreamListener):
 class stop_monitor():
     def __init__(self):
         self.status = False
+        return
 
     def set_continue(self):
         self.status = False
+        return
 
     def set_stop(self):
         print "stop command received"
         self.status = True
+        return
 
     def __call__(self):
         return self.status
@@ -62,9 +65,12 @@ if __name__ == '__main__':
     stream = Stream(auth, l)
     # stream.filter(track=['basketball'])
     stream.userstream(async=True)
-    cmd, opt = "",""
+    cmd, opt = "clock",""
 
+    # Start an initial clock thread
     sm = stop_monitor()
+    rt = Hex.run_command(sm,cmd,opt)
+    rt.start()
     while 1:
         print "updating command"
         print l.cmd, l.opt
@@ -78,12 +84,13 @@ if __name__ == '__main__':
         cmd = l.cmd
         opt = l.opt
 
-        ## Create a stop monitor and send it to the
-        ## class that creats the command and thread
-        ## stop previous stoppable.
-        sm.set_stop()
-        ## start next stoppable.
-        sm.set_continue()
-        rt = Hex.run_command(sm,cmd,opt)
-        rt.run()
+        # Wait until the thread's run has completed
+        while rt.is_alive():
+            # Now stop it
+            sm.set_stop()
+            sleep(2)
+            # start the new command
+            sm.set_continue()
+            rt = Hex.run_command(sm,cmd,opt)
+            rt.start()
  

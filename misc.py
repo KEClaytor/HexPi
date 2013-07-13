@@ -6,6 +6,7 @@ import out
 import patterns
 import twitterclock
 import letters as ls
+from time import sleep
 
 class clock_say:
     def __init__(self, message):
