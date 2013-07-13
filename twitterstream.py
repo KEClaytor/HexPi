@@ -84,13 +84,11 @@ if __name__ == '__main__':
         cmd = l.cmd
         opt = l.opt
 
+        # Stop our clock thread
+        sm.set_stop()
         # Wait until the thread's run has completed
-        while rt.is_alive():
-            # Now stop it
-            sm.set_stop()
-            sleep(2)
-            # start the new command
-            sm.set_continue()
-            rt = Hex.run_command(sm,cmd,opt)
-            rt.start()
- 
+        rt.join()
+        # start the new command
+        sm.set_continue()
+        rt = Hex.run_command(sm,cmd,opt)
+        rt.start()
