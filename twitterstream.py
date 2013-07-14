@@ -83,7 +83,7 @@ if __name__ == '__main__':
         if (l.cmd != "clock") and (dt.minutes > 2):
             l.cmd = "clock"
 	    # Make sure both command and options changed
-        if (l.cmd == cmd) or (l.opt == opt):
+        if (l.cmd == cmd) and (l.opt == opt):
             continue
 
         print "updating command and options"
