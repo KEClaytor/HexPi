@@ -7,6 +7,7 @@ from time import sleep
 from stoppable import stoppable
 import Hex
 import out
+from datetime import datetime
 
 # Import our keys
 f = open('twitterkeys','r')
@@ -71,13 +72,18 @@ if __name__ == '__main__':
     sm = stop_monitor()
     rt = Hex.run_command(sm,cmd,opt)
     rt.start()
+    start_time = datetime.now()
     while 1:
         print "updating command"
         print l.cmd, l.opt
 
         sleep(10)
+        # Go back to clock mode if we've spent time doing something else
+        dt = start_time - datetime.now()
+        if (l.cmd != "clock") and (dt.minutes > 2):
+            l.cmd = "clock"
 	    # Make sure both command and options changed
-        if (l.cmd == cmd) and (l.opt == opt):
+        if (l.cmd == cmd) or (l.opt == opt):
             continue
 
         print "updating command and options"
@@ -92,3 +98,6 @@ if __name__ == '__main__':
         sm.set_continue()
         rt = Hex.run_command(sm,cmd,opt)
         rt.start()
+        # Update the time-out timer
+        start_time = datetime.now()
+
