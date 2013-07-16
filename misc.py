@@ -24,6 +24,16 @@ class clock_say:
         sleep(5)
         return
 
+class clock_idle:
+    def __init__(self, n=2):
+        idle_types = ['twinkle','spin_inner','spin_outer','spin_both','outer_inner']
+        self.idle_type = idle_types[random.randint(0,len(idle_types))]
+        self.n = n
+
+    def __run__(self):
+        #self.idle_type()
+        pass
+
 # Tweet help statements back to the user
 def tweethelp(thandle, command, options):
     thandle = twitterclock.tclock()

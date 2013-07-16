@@ -24,6 +24,7 @@ class TobleroneListener (StreamListener):
 
     cmd = "clock"
     opt = ""
+    time = datetime.now()
 
     def on_data(self, data):
         ddata = json.loads(data)
@@ -34,6 +35,8 @@ class TobleroneListener (StreamListener):
             return True
 
         self.cmd, self.opt = Hex.parse_command(ddata["text"])
+        # Update the time-out timer
+        self.time = datetime.now()
 
         return True
 
@@ -72,25 +75,25 @@ if __name__ == '__main__':
     sm = stop_monitor()
     rt = Hex.run_command(sm,cmd,opt)
     rt.start()
-    start_time = datetime.now()
     while 1:
-        print "updating command"
-        print l.cmd, l.opt
+        print "current command: " + repr(l.cmd) + " " + repr(l.opt)
 
         sleep(10)
         # Go back to clock mode if we've spent time doing something else
-        dt = start_time - datetime.now()
+        dt = l.time - datetime.now()
         if (l.cmd != "clock") and (dt.minutes > 2):
+            print "timeout occured, switching to clock mode"
             l.cmd = "clock"
-	    # Make sure both command and options changed
+
+	    # Don't do anything if the command and options haven't chnaged
         if (l.cmd == cmd) and (l.opt == opt):
             continue
 
-        print "updating command and options"
+        print "updating command: " + repr(l.cmd) + " " + repr(l.opt)
         cmd = l.cmd
         opt = l.opt
 
-        # Stop our clock thread
+        # Stop our thread
         sm.set_stop()
         # Wait until the thread's run has completed
         rt.join()
@@ -98,6 +101,4 @@ if __name__ == '__main__':
         sm.set_continue()
         rt = Hex.run_command(sm,cmd,opt)
         rt.start()
-        # Update the time-out timer
-        start_time = datetime.now()
 

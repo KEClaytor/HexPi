@@ -37,10 +37,7 @@ def wedge(wait):
 
 # Twinkle n lights 
 def twinkle(wait,n):
-    return Animation(
-        
-
-	)
+    pass
 
 # Spin a set of n lights around the outer wheel
 def spinout(wait,n):
