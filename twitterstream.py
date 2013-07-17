@@ -81,7 +81,7 @@ if __name__ == '__main__':
         sleep(10)
         # Go back to clock mode if we've spent time doing something else
         dt = l.time - datetime.now()
-        if (l.cmd != "clock") and (dt.minutes > 2):
+        if (cmd != "clock") and (dt.total_seconds() < -4*60):
             print "timeout occured, switching to clock mode"
             l.cmd = "clock"
 
