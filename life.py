@@ -31,6 +31,7 @@ for ii in range(20):
 # Lower diagnoal
 for ii in range(1,21):
     Adjacent[ii][ii-1] = 1
+
 # There is a disconnect
 Adjacent[14][15] = 0
 Adjacent[15][14] = 0

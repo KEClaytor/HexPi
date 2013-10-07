@@ -119,14 +119,13 @@ if __name__ == '__main__':
             print "timeout occured, switching to clock mode"
             l.cmd = "clock"
 
-	    # Don't do anything if the command and options haven't chnaged
-        if (l.cmd == cmd) and (l.opt == opt):
+	    # If there was a change in command update
+        if (l.cmd != cmd) or (l.opt != opt):
+            print "updating command: " + repr(l.cmd) + " " + repr(l.opt)
+            cmd = l.cmd
+            opt = l.opt
             continue
 
-        print "updating command: " + repr(l.cmd) + " " + repr(l.opt)
-        cmd = l.cmd
-        opt = l.opt
-
-        # Reworking since we don't really need a thread
+        # Otherwise just run
         run_command(cmd,opt)
 
