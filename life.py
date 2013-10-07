@@ -25,8 +25,12 @@ def eqvec(vec1,vec2):
 Adjacent = [None]*21
 for ii in range(21):
     Adjacent[ii] = [0]*21
+# Upper diagonal
 for ii in range(20):
     Adjacent[ii][ii+1] = 1
+# Lower diagnoal
+for ii in range(1,21):
+    Adjacent[ii][ii-1] = 1
 # There is a disconnect
 Adjacent[14][15] = 0
 Adjacent[15][14] = 0
@@ -35,17 +39,17 @@ Adjacent[0][14] = 1
 Adjacent[0][15] = 1
 Adjacent[3][16] = 1
 Adjacent[5][17] = 1
-Adjacent[7][19] = 1
+Adjacent[8][18] = 1
+Adjacent[10][19] = 1
 Adjacent[13][20] = 1
-Adjacent[15][20] = 1
 # And the diagonally equivalent values
 Adjacent[14][0] = 1
 Adjacent[15][0] = 1
 Adjacent[16][3] = 1
 Adjacent[17][5] = 1
-Adjacent[19][7] = 1
+Adjacent[18][8] = 1
+Adjacent[19][10] = 1
 Adjacent[20][13] = 1
-Adjacent[20][15] = 1
 
 class gameoflife:
     def __init__(self, str_self=0, str_near=2.5, str_nega=1.5,

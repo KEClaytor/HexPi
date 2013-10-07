@@ -2,6 +2,7 @@
 from itertools import repeat
 from pattern import Pattern, Animation
 
+# Basic patterns
 def all_bits(state):
     return Pattern(repeat(state, 21))
 
@@ -10,6 +11,9 @@ def all_on():
 
 def all_off():
     return all_bits(0)
+
+def single(n):
+    return Pattern(map(lambda x: x == n, range(21)))
 
 def inner_circle():
     return Pattern(map(lambda x: x > 14, range(21)))
@@ -30,8 +34,9 @@ def outer_circle_alt_even():
     return Pattern(map(lambda x: x < 15 and not x % 2, range(21)))
 
 def random():
-    return Pattern()
+    pass
 
+# These return animations
 def wedge(wait):
 	pass
 
@@ -40,11 +45,15 @@ def twinkle(wait,n):
     pass
 
 # Spin a set of n lights around the outer wheel
-def spinout(wait,n):
-	pass
+def spinout(wait):
+    return Animation(
+        [single(x) for x in range(15)]
+        [wait]*15)
 
 def spinin(wait,n):
-	pass
+    return Animation(
+        [single(x) for x in range(15,21)]
+        [wait]*6)
 
 def spinall(wait,n):
 	pass
