@@ -3,11 +3,16 @@ from tweepy import OAuthHandler
 from tweepy import Stream
 from tweepy.utils import import_simplejson
 json = import_simplejson()
+# Generic time
 from time import sleep
-from stoppable import stoppable
-import Hex
-import out
 from datetime import datetime
+# RPi commands
+import out
+# TClock specific
+import clock
+import life
+import misc
+import re
 
 # Import our keys
 f = open('twitterkeys','r')
@@ -15,6 +20,39 @@ consumer_key =  f.readline().strip('\n')
 consumer_secret = f.readline().strip('\n')
 access_token = f.readline().strip('\n')
 access_token_secret = f.readline().strip('\n')
+
+def parse_command(text):
+    # Try parsing the command
+    try:
+        command = re.search('.*:',text).group().rstrip(':').replace('@tobleroneclock','').lstrip()
+    except:
+        command = ''
+    # and the options
+    try:
+        options = re.search(':.*',text).group().lstrip(':').lstrip()
+    except:
+        options = ''
+
+    # in the case that the user didn't specify a command, assume the
+    # comman was 'say'.
+    if command == '' and options == '':
+        command = 'say'
+        options = text.replace('@tobleroneclock', '').lstrip()
+
+    return command, options
+    
+def run_command(command,options):
+    if command == 'clock':
+        targetcmd = clock.clockmode()
+    elif command == 'say':
+        targetcmd = misc.clock_say(options)
+    elif command == 'life':
+        targetcmd = life.gameoflife()
+    else:
+        misc.tweethelp(command, options)
+
+    targetcmd()
+    return
 
 class TobleroneListener (StreamListener):
     """ A listener handles tweets are the received from the stream.
@@ -34,7 +72,7 @@ class TobleroneListener (StreamListener):
         if "@tobleroneclock" not in ddata["text"]:
             return True
 
-        self.cmd, self.opt = Hex.parse_command(ddata["text"])
+        self.cmd, self.opt = parse_command(ddata["text"])
         # Update the time-out timer
         self.time = datetime.now()
 
@@ -71,10 +109,6 @@ if __name__ == '__main__':
     stream.userstream(async=True)
     cmd, opt = "clock",""
 
-    # Start an initial clock thread
-    sm = stop_monitor()
-    rt = Hex.run_command(sm,cmd,opt)
-    rt.start()
     while 1:
         print "current command: " + repr(l.cmd) + " " + repr(l.opt)
 
@@ -93,12 +127,6 @@ if __name__ == '__main__':
         cmd = l.cmd
         opt = l.opt
 
-        # Stop our thread
-        sm.set_stop()
-        # Wait until the thread's run has completed
-        rt.join()
-        # start the new command
-        sm.set_continue()
-        rt = Hex.run_command(sm,cmd,opt)
-        rt.start()
+        # Reworking since we don't really need a thread
+        run_command(cmd,opt)
 
